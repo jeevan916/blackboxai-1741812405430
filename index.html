@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalyan-Dombivli Gold Rates</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark': '#1a1a1a',
+                        'gold': '#D4AF37'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000000;
+            color: #ffffff;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .gold-text {
+            background: linear-gradient(to right, #D4AF37, #FFF5CC);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .status-bar {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .bg-pattern {
+            background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-black bg-pattern">
+    <div class="container mx-auto px-4 py-12 max-w-6xl">
+        <header class="text-center mb-16">
+            <h1 class="text-6xl font-bold mb-3 gold-text tracking-tight">Gold Rates</h1>
+            <p class="text-xl text-gray-400 tracking-wide">Kalyan-Dombivli Market</p>
+            <p class="text-sm text-gray-500 mt-2">Live updates every 15 minutes</p>
+        </header>
+
+        <div class="space-y-8 pb-24">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Gold 999 -->
+                <div class="glass-card rounded-2xl p-8 transition-all duration-300 hover:bg-opacity-10">
+                    <div class="mb-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl font-medium text-white opacity-90">Gold 999</h3>
+                                <p class="text-sm text-gray-400 mt-1">24K International Standard</p>
+                            </div>
+                            <span class="text-xs text-gray-400 bg-white/5 px-3 py-1 rounded-full">Premium</span>
+                        </div>
+                    </div>
+                    <div id="price999" class="text-5xl font-light gold-text tracking-tight">Loading...</div>
+                </div>
+
+                <!-- Gold 995 -->
+                <div class="glass-card rounded-2xl p-8 transition-all duration-300 hover:bg-opacity-10">
+                    <div class="mb-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl font-medium text-white opacity-90">Gold 995</h3>
+                                <p class="text-sm text-gray-400 mt-1">24K Indian Standard</p>
+                            </div>
+                            <span class="text-xs text-gray-400 bg-white/5 px-3 py-1 rounded-full">Standard</span>
+                        </div>
+                    </div>
+                    <div id="price995" class="text-5xl font-light gold-text tracking-tight">Loading...</div>
+                </div>
+
+                <!-- Gold 916 -->
+                <div class="glass-card rounded-2xl p-8 transition-all duration-300 hover:bg-opacity-10">
+                    <div class="mb-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl font-medium text-white opacity-90">Gold 916</h3>
+                                <p class="text-sm text-gray-400 mt-1">22K Hallmark</p>
+                            </div>
+                            <span class="text-xs text-gray-400 bg-white/5 px-3 py-1 rounded-full">Hallmark</span>
+                        </div>
+                    </div>
+                    <div id="price916" class="text-5xl font-light gold-text tracking-tight">Loading...</div>
+                </div>
+
+                <!-- Gold 750 -->
+                <div class="glass-card rounded-2xl p-8 transition-all duration-300 hover:bg-opacity-10">
+                    <div class="mb-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl font-medium text-white opacity-90">Gold 750</h3>
+                                <p class="text-sm text-gray-400 mt-1">18K Hallmark</p>
+                            </div>
+                            <span class="text-xs text-gray-400 bg-white/5 px-3 py-1 rounded-full">Hallmark</span>
+                        </div>
+                    </div>
+                    <div id="price750" class="text-5xl font-light gold-text tracking-tight">Loading...</div>
+                </div>
+            </div>
+
+            <div class="status-bar fixed bottom-0 left-0 right-0 p-4 z-50">
+                <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div class="flex items-center space-x-8">
+                        <div class="text-sm text-gray-400" id="lastUpdated">Last updated: --</div>
+                        <div class="text-sm text-gray-400">
+                            API Calls: <span id="apiUsage" class="text-white">--/--</span>
+                        </div>
+                    </div>
+                    <button id="refreshBtn" class="px-6 py-2.5 bg-gold/10 border border-gold/20 rounded-lg hover:bg-gold/20 transition-all duration-300 text-gold">
+                        Refresh
+                    </button>
+                </div>
+            </div>
+
+            <div id="loadingSpinner" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+                <div class="animate-spin rounded-full h-12 w-12 border-2 border-gold border-t-transparent"></div>
+            </div>
+
+            <div id="errorMessage" class="hidden fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-red-900/20 border border-red-500/20 text-red-400 px-6 py-3 rounded-lg backdrop-blur-sm z-50" role="alert">
+                <span id="errorText">An error occurred while fetching the gold rates.</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const price999 = document.getElementById('price999');
+        const price995 = document.getElementById('price995');
+        const price916 = document.getElementById('price916');
+        const price750 = document.getElementById('price750');
+        const lastUpdated = document.getElementById('lastUpdated');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+        const apiUsage = document.getElementById('apiUsage');
+
+        async function fetchGoldRate() {
+            try {
+                loadingSpinner.classList.remove('hidden');
+                errorMessage.classList.add('hidden');
+                
+                const response = await fetch('fetch_gold_rate.php');
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                const data = await response.json();
+                if (data.error) throw new Error(data.error);
+
+                data.rates.forEach(rate => {
+                    const priceElement = document.getElementById(`price${rate.purity}`);
+                    if (priceElement) {
+                        priceElement.textContent = `₹${rate.price}`;
+                    }
+                });
+
+                lastUpdated.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
+                if (data.api_usage) {
+                    apiUsage.textContent = `${data.api_usage.remaining}/${data.api_usage.limit}`;
+                }
+            } catch (error) {
+                errorText.textContent = error.message || 'Failed to fetch gold rates';
+                errorMessage.classList.remove('hidden');
+                setTimeout(() => errorMessage.classList.add('hidden'), 5000);
+                [price999, price995, price916, price750].forEach(el => {
+                    el.textContent = '--';
+                });
+            } finally {
+                loadingSpinner.classList.add('hidden');
+            }
+        }
+
+        fetchGoldRate();
+        refreshBtn.addEventListener('click', fetchGoldRate);
+        setInterval(fetchGoldRate, 15 * 60 * 1000);
+    </script>
+</body>
+</html>
